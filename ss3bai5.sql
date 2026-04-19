@@ -1,0 +1,33 @@
+use ss3;
+CREATE TABLE CART_ITEMS (
+    CartItemID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT,
+    ProductID INT,
+    Quantity INT,
+    AddedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+   
+    CONSTRAINT CHK_Quantity_Positive CHECK (Quantity > 0)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE UNIQUE INDEX idx_user_product ON CART_ITEMS(UserID, ProductID);
+
+
+INSERT INTO CART_ITEMS (UserID, ProductID, Quantity)
+VALUES 
+(123, 456, 1),
+(122,323,2)
+ON DUPLICATE KEY UPDATE Quantity = Quantity + 1;
+
+
+SELECT * FROM CART_ITEMS 
+WHERE UserID = 123;
+
+
+UPDATE CART_ITEMS
+SET Quantity = 5
+WHERE UserID = 123 AND ProductID = 456;
+
+
+DELETE FROM CART_ITEMS
+WHERE UserID = 123 AND ProductID = 456;
